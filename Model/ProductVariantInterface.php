@@ -12,8 +12,8 @@
 namespace Sylius\Component\Core\Model;
 
 use Doctrine\Common\Collections\Collection;
-use Sylius\Component\Product\Model\Variable\VariantInterface as BaseVariantInterface;
 use Sylius\Component\Inventory\Model\StockableInterface;
+use Sylius\Component\Product\Model\VariantInterface as BaseVariantInterface;
 use Sylius\Component\Shipping\Model\ShippableInterface;
 
 /**
@@ -21,37 +21,37 @@ use Sylius\Component\Shipping\Model\ShippableInterface;
  *
  * @author Paweł Jędrzejewski <pjedrzejewski@diweb.pl>
  */
-interface VariantInterface extends BaseVariantInterface, PriceableInterface, ShippableInterface, StockableInterface
+interface ProductVariantInterface extends BaseVariantInterface, PriceableInterface, ShippableInterface, StockableInterface
 {
     /**
      * Get images.
      *
-     * @return Collection|VariantImageInterface[]
+     * @return Collection|ProductVariantImageInterface[]
      */
     public function getImages();
 
     /**
      * Checks if product has image.
      *
-     * @param VariantImageInterface $image
+     * @param ProductVariantImageInterface $image
      *
      * @return Boolean
      */
-    public function hasImage(VariantImageInterface $image);
+    public function hasImage(ProductVariantImageInterface $image);
 
     /**
      * Add image.
      *
-     * @param VariantImageInterface $image
+     * @param ProductVariantImageInterface $image
      */
-    public function addImage(VariantImageInterface $image);
+    public function addImage(ProductVariantImageInterface $image);
 
     /**
      * Remove image.
      *
-     * @param VariantImageInterface $image
+     * @param ProductVariantImageInterface $image
      */
-    public function removeImage(VariantImageInterface $image);
+    public function removeImage(ProductVariantImageInterface $image);
 
     /**
      * @return integer

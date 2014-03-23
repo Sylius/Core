@@ -11,19 +11,19 @@
 
 namespace Sylius\Component\Core\Model;
 
-interface VariantImageInterface extends ImageInterface
+interface ProductVariantImageInterface extends ImageInterface
 {
     /**
-     * Get variant.
+     * Get product variant.
      *
      * @return VariantInterface
      */
     public function getVariant();
 
     /**
-     * Set the variant.
+     * Set the product variant.
      *
-     * @param VariantInterface $variant
+     * @param ProductVariantInterface $variant
      */
-    public function setVariant(VariantInterface $variant = null);
+    public function setVariant(ProductVariantInterface $variant = null);
 }

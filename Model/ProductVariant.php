@@ -13,15 +13,15 @@ namespace Sylius\Component\Core\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Sylius\Component\Product\Model\Variable\Variant as BaseVariant;
-use Sylius\Component\Product\Model\Variable\VariantInterface as BaseVariantInterface;
+use Sylius\Component\Product\Model\Variant as BaseVariant;
+use Sylius\Component\Variation\Model\VariantInterface as BaseVariantInterface;
 
 /**
  * Sylius core product variant entity.
  *
  * @author Paweł Jędrzejewski <pjedrzejewski@diweb.pl>
  */
-class Variant extends BaseVariant implements VariantInterface
+class ProductVariant extends BaseVariant implements ProductVariantInterface
 {
     /**
      * Variant SKU.
@@ -209,7 +209,7 @@ class Variant extends BaseVariant implements VariantInterface
      */
     public function getInventoryName()
     {
-        return $this->product->getName();
+        return $this->getProduct()->getName();
     }
 
     /**
@@ -247,13 +247,13 @@ class Variant extends BaseVariant implements VariantInterface
      */
     public function getShippingCategory()
     {
-        return $this->product->getShippingCategory();
+        return $this->getProduct()->getShippingCategory();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function hasImage(VariantImageInterface $image)
+    public function hasImage(ProductVariantImageInterface $image)
     {
         return $this->images->contains($image);
     }
@@ -269,7 +269,7 @@ class Variant extends BaseVariant implements VariantInterface
     /**
      * {@inheritdoc}
      */
-    public function addImage(VariantImageInterface $image)
+    public function addImage(ProductVariantImageInterface $image)
     {
         if (!$this->hasImage($image)) {
             $image->setVariant($this);
@@ -282,7 +282,7 @@ class Variant extends BaseVariant implements VariantInterface
     /**
      * {@inheritdoc}
      */
-    public function removeImage(VariantImageInterface $image)
+    public function removeImage(ProductVariantImageInterface $image)
     {
         $image->setVariant(null);
         $this->images->removeElement($image);
