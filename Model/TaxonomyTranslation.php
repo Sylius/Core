@@ -11,16 +11,11 @@
 
 namespace Sylius\Component\Core\Model;
 
-use Sylius\Component\Taxonomy\Model\Taxonomy as BaseTaxonomy;
+use Sylius\Component\Taxonomy\Model\TaxonomyTranslation as BaseTaxonomyTranslation;
 
-class Taxonomy extends BaseTaxonomy
+/*
+ * @author Gonzalo Vilaseca <gvilaseca@reiss.co.uk>
+ */
+class TaxonomyTranslation extends BaseTaxonomyTranslation
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setRoot(new Taxon());
-    }
 }
