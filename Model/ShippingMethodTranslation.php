@@ -11,16 +11,13 @@
 
 namespace Sylius\Component\Core\Model;
 
-use Sylius\Component\Taxonomy\Model\Taxonomy as BaseTaxonomy;
+use Sylius\Component\Shipping\Model\ShippingMethodTranslation as BaseShippingMethodTranslation;
 
-class Taxonomy extends BaseTaxonomy
+/**
+ * Shipping method translation.
+ *
+ * @author Gonzalo Vilaseca <gvilaseca@reiss.co.uk>
+ */
+class ShippingMethodTranslation extends BaseShippingMethodTranslation
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setRoot(new Taxon());
-    }
 }
