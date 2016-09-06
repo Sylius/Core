@@ -9,16 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace spec\Sylius\Component\Core\Promotion\Checker;
+namespace spec\Sylius\Component\Core\Promotion\Checker\Eligibility;
 
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\CouponInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PromotionInterface;
-use Sylius\Component\Core\Promotion\Checker\CouponsEligibilityChecker;
+use Sylius\Component\Core\Promotion\Checker\Eligibility\CouponsEligibilityChecker;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
-use Sylius\Component\Promotion\Checker\PromotionEligibilityCheckerInterface;
+use Sylius\Component\Promotion\Checker\Eligibility\PromotionEligibilityCheckerInterface;
 
 /**
  * @mixin CouponsEligibilityChecker

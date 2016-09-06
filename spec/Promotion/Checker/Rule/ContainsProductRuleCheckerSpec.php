@@ -9,18 +9,20 @@
  * file that was distributed with this source code.
  */
 
-namespace spec\Sylius\Component\Core\Promotion\Checker;
+namespace spec\Sylius\Component\Core\Promotion\Checker\Rule;
 
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItem;
 use Sylius\Component\Core\Model\ProductVariant;
-use Sylius\Component\Core\Promotion\Checker\ContainsProductRuleChecker;
-use Sylius\Component\Promotion\Checker\RuleCheckerInterface;
+use Sylius\Component\Core\Promotion\Checker\Rule\ContainsProductRuleChecker;
+use Sylius\Component\Promotion\Checker\Rule\RuleCheckerInterface;
 use Sylius\Component\Promotion\Exception\UnsupportedTypeException;
 use Sylius\Component\Promotion\Model\PromotionSubjectInterface;
 
 /**
+ * @mixin ContainsProductRuleChecker
+ *
  * @author Piotr Walków <walkow.piotr@gmail.com>
  */
 final class ContainsProductRuleCheckerSpec extends ObjectBehavior
