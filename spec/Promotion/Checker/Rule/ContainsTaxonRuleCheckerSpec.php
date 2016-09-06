@@ -9,15 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace spec\Sylius\Component\Core\Promotion\Checker;
+namespace spec\Sylius\Component\Core\Promotion\Checker\Rule;
 
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\TaxonInterface;
-use Sylius\Component\Core\Promotion\Checker\ContainsTaxonRuleChecker;
-use Sylius\Component\Promotion\Checker\RuleCheckerInterface;
+use Sylius\Component\Core\Promotion\Checker\Rule\ContainsTaxonRuleChecker;
+use Sylius\Component\Promotion\Checker\Rule\RuleCheckerInterface;
 use Sylius\Component\Promotion\Model\PromotionSubjectInterface;
 use Sylius\Component\Resource\Exception\UnexpectedTypeException;
 use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
@@ -36,7 +36,7 @@ final class ContainsTaxonRuleCheckerSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Sylius\Component\Core\Promotion\Checker\ContainsTaxonRuleChecker');
+        $this->shouldHaveType(ContainsTaxonRuleChecker::class);
     }
 
     function it_implements_rule_checker_interface()

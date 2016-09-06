@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace spec\Sylius\Component\Core\Promotion\Checker;
+namespace spec\Sylius\Component\Core\Promotion\Checker\Rule;
 
 use Doctrine\Common\Collections\Collection;
 use PhpSpec\ObjectBehavior;
@@ -17,11 +17,14 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\TaxonInterface;
-use Sylius\Component\Promotion\Checker\RuleCheckerInterface;
+use Sylius\Component\Core\Promotion\Checker\Rule\TaxonRuleChecker;
+use Sylius\Component\Promotion\Checker\Rule\RuleCheckerInterface;
 use Sylius\Component\Promotion\Exception\UnsupportedTypeException;
 use Sylius\Component\Promotion\Model\PromotionSubjectInterface;
 
 /**
+ * @mixin TaxonRuleChecker
+ *
  * @author Joseph Bielawski <stloyd@gmail.com>
  * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
  */
@@ -29,7 +32,7 @@ final class TaxonRuleCheckerSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType('Sylius\Component\Core\Promotion\Checker\TaxonRuleChecker');
+        $this->shouldHaveType(TaxonRuleChecker::class);
     }
 
     function it_is_rule_checker()

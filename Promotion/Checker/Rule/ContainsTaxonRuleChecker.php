@@ -9,11 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Sylius\Component\Core\Promotion\Checker;
+namespace Sylius\Component\Core\Promotion\Checker\Rule;
 
 use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\Model\OrderItemInterface;
-use Sylius\Component\Promotion\Checker\RuleCheckerInterface;
+use Sylius\Component\Promotion\Checker\Rule\RuleCheckerInterface;
 use Sylius\Component\Promotion\Model\PromotionSubjectInterface;
 use Sylius\Component\Resource\Exception\UnexpectedTypeException;
 use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
@@ -21,9 +20,9 @@ use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
 /**
  * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
  */
-class TotalOfItemsFromTaxonRuleChecker implements RuleCheckerInterface
+class ContainsTaxonRuleChecker implements RuleCheckerInterface
 {
-    const TYPE = 'total_of_items_from_taxon';
+    const TYPE = 'contains_taxon';
 
     /**
      * @var TaxonRepositoryInterface
@@ -47,7 +46,7 @@ class TotalOfItemsFromTaxonRuleChecker implements RuleCheckerInterface
             throw new UnexpectedTypeException($subject, OrderInterface::class);
         }
 
-        if (!isset($configuration['taxon']) || !isset($configuration['amount'])) {
+        if (!isset($configuration['taxon']) || !isset($configuration['count'])) {
             return false;
         }
 
@@ -56,23 +55,23 @@ class TotalOfItemsFromTaxonRuleChecker implements RuleCheckerInterface
             return false;
         }
 
-        $itemsWithTaxonTotal = 0;
-
-        /** @var OrderItemInterface $item */
+        $validProducts = 0;
         foreach ($subject->getItems() as $item) {
-            if ($item->getProduct()->hasTaxon($targetTaxon)) {
-                $itemsWithTaxonTotal += $item->getTotal();
+            if (!$item->getProduct()->hasTaxon($targetTaxon)) {
+                continue;
             }
+
+            $validProducts += $item->getQuantity();
         }
 
-        return $itemsWithTaxonTotal >= $configuration['amount'];
+        return $validProducts >= $configuration['count'];
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getConfigurationFormType()
     {
-        return 'sylius_promotion_rule_total_of_items_from_taxon_configuration';
+        return 'sylius_promotion_rule_contains_taxon_configuration';
     }
 }

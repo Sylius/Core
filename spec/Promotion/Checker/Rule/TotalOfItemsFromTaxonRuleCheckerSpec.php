@@ -9,15 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace spec\Sylius\Component\Core\Promotion\Checker;
+namespace spec\Sylius\Component\Core\Promotion\Checker\Rule;
 
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\TaxonInterface;
-use Sylius\Component\Core\Promotion\Checker\TotalOfItemsFromTaxonRuleChecker;
-use Sylius\Component\Promotion\Checker\RuleCheckerInterface;
+use Sylius\Component\Core\Promotion\Checker\Rule\TotalOfItemsFromTaxonRuleChecker;
+use Sylius\Component\Promotion\Checker\Rule\RuleCheckerInterface;
 use Sylius\Component\Promotion\Model\PromotionSubjectInterface;
 use Sylius\Component\Resource\Exception\UnexpectedTypeException;
 use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
@@ -36,7 +36,7 @@ final class TotalOfItemsFromTaxonRuleCheckerSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Sylius\Component\Core\Promotion\Checker\TotalOfItemsFromTaxonRuleChecker');
+        $this->shouldHaveType(TotalOfItemsFromTaxonRuleChecker::class);
     }
 
     function it_implements_rule_checker_interface()
@@ -45,6 +45,7 @@ final class TotalOfItemsFromTaxonRuleCheckerSpec extends ObjectBehavior
     }
 
     function it_recognizes_subject_as_eligible_if_it_has_items_from_configured_taxon_which_has_required_total(
+        TaxonRepositoryInterface $taxonRepository,
         OrderInterface $order,
         OrderItemInterface $compositeBowItem,
         OrderItemInterface $longswordItem,
@@ -52,15 +53,9 @@ final class TotalOfItemsFromTaxonRuleCheckerSpec extends ObjectBehavior
         ProductInterface $compositeBow,
         ProductInterface $longsword,
         ProductInterface $reflexBow,
-        TaxonInterface $bows,
-        TaxonRepositoryInterface $taxonRepository
+        TaxonInterface $bows
     ) {
-        $order
-            ->getItems()
-            ->willReturn(
-                new \ArrayIterator([$compositeBowItem->getWrappedObject(), $longswordItem->getWrappedObject(), $reflexBowItem->getWrappedObject()])
-            )
-        ;
+        $order->getItems()->willReturn([$compositeBowItem, $longswordItem, $reflexBowItem]);
 
         $taxonRepository->findOneBy(['code' => 'bows'])->willReturn($bows);
 
@@ -80,15 +75,15 @@ final class TotalOfItemsFromTaxonRuleCheckerSpec extends ObjectBehavior
     }
 
     function it_recognizes_subject_as_eligible_if_it_has_items_from_configured_taxon_which_has_total_equal_with_required(
+        TaxonRepositoryInterface $taxonRepository,
         OrderInterface $order,
         OrderItemInterface $compositeBowItem,
         OrderItemInterface $reflexBowItem,
         ProductInterface $compositeBow,
         ProductInterface $reflexBow,
-        TaxonInterface $bows,
-        TaxonRepositoryInterface $taxonRepository
+        TaxonInterface $bows
     ) {
-        $order->getItems()->willReturn(new \ArrayIterator([$compositeBowItem->getWrappedObject(), $reflexBowItem->getWrappedObject()]));
+        $order->getItems()->willReturn([$compositeBowItem, $reflexBowItem]);
 
         $taxonRepository->findOneBy(['code' => 'bows'])->willReturn($bows);
 
@@ -104,15 +99,15 @@ final class TotalOfItemsFromTaxonRuleCheckerSpec extends ObjectBehavior
     }
 
     function it_does_not_recognize_subject_as_eligible_if_items_from_required_taxon_has_too_low_total(
+        TaxonRepositoryInterface $taxonRepository,
         OrderInterface $order,
         OrderItemInterface $compositeBowItem,
         OrderItemInterface $longswordItem,
         ProductInterface $compositeBow,
         ProductInterface $longsword,
-        TaxonInterface $bows,
-        TaxonRepositoryInterface $taxonRepository
+        TaxonInterface $bows
     ) {
-        $order->getItems()->willReturn(new \ArrayIterator([$compositeBowItem->getWrappedObject(), $longswordItem->getWrappedObject()]));
+        $order->getItems()->willReturn([$compositeBowItem, $longswordItem]);
 
         $taxonRepository->findOneBy(['code' => 'bows'])->willReturn($bows);
 
@@ -143,8 +138,8 @@ final class TotalOfItemsFromTaxonRuleCheckerSpec extends ObjectBehavior
     }
 
     function it_returns_false_if_taxon_with_configured_code_cannot_be_found(
-        OrderInterface $order,
-        TaxonRepositoryInterface $taxonRepository
+        TaxonRepositoryInterface $taxonRepository,
+        OrderInterface $order
     ) {
         $taxonRepository->findOneBy(['code' => 'sniper_rifles'])->willReturn(null);
 

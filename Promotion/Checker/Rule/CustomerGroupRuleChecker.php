@@ -9,19 +9,19 @@
  * file that was distributed with this source code.
  */
 
-namespace Sylius\Component\Core\Promotion\Checker;
+namespace Sylius\Component\Core\Promotion\Checker\Rule;
 
 use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Promotion\Checker\RuleCheckerInterface;
+use Sylius\Component\Promotion\Checker\Rule\RuleCheckerInterface;
 use Sylius\Component\Promotion\Exception\UnsupportedTypeException;
 use Sylius\Component\Promotion\Model\PromotionSubjectInterface;
+use Sylius\Component\User\Model\GroupableInterface;
+use Sylius\Component\User\Model\GroupInterface;
 
 /**
- * Checks if user is created before/after configured period of time.
- *
- * @author Saša Stamenković <umpirsky@gmail.com>
+ * @author Antonio Perić <antonio@locastic.com>
  */
-class CustomerLoyaltyRuleChecker implements RuleCheckerInterface
+class CustomerGroupRuleChecker implements RuleCheckerInterface
 {
     /**
      * {@inheritdoc}
@@ -36,13 +36,18 @@ class CustomerLoyaltyRuleChecker implements RuleCheckerInterface
             return false;
         }
 
-        $time = new \DateTime(sprintf('%d %s ago', $configuration['time'], $configuration['unit']));
-
-        if (isset($configuration['after']) && $configuration['after']) {
-            return $customer->getCreatedAt() >= $time;
+        if (!$customer instanceof GroupableInterface) {
+            return false;
         }
 
-        return $customer->getCreatedAt() < $time;
+        /* @var GroupInterface $group */
+        foreach ($customer->getGroups() as $group) {
+            if ($configuration['groups'] == $group->getId()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -50,6 +55,6 @@ class CustomerLoyaltyRuleChecker implements RuleCheckerInterface
      */
     public function getConfigurationFormType()
     {
-        return 'sylius_promotion_rule_customer_loyalty_configuration';
+        return 'sylius_promotion_rule_customer_group_configuration';
     }
 }

@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Sylius\Component\Core\Promotion\Checker;
+namespace Sylius\Component\Core\Promotion\Checker\Rule;
 
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\Component\Payment\Model\PaymentInterface;
-use Sylius\Component\Promotion\Checker\RuleCheckerInterface;
+use Sylius\Component\Promotion\Checker\Rule\RuleCheckerInterface;
 use Sylius\Component\Promotion\Exception\UnsupportedTypeException;
 use Sylius\Component\Promotion\Model\PromotionSubjectInterface;
 use Sylius\Component\Storage\StorageInterface;
