@@ -11,20 +11,20 @@
 
 namespace Sylius\Component\Core\Model;
 
-use Sylius\Component\Promotion\Model\CouponInterface as BaseCouponInterface;
+use Sylius\Component\Promotion\Model\PromotionCouponInterface as BasePromotionCouponInterface;
 
 /**
  * @author Myke Hines <myke@webhines.com>
  */
-interface CouponInterface extends BaseCouponInterface
+interface PromotionCouponInterface extends BasePromotionCouponInterface
 {
     /**
-     * @return null|int
+     * @return int|null
      */
     public function getPerCustomerUsageLimit();
 
     /**
-     * @param int $perCustomerUsageLimit
+     * @param int|null $perCustomerUsageLimit
      */
-    public function setPerCustomerUsageLimit($perCustomerUsageLimit = 0);
+    public function setPerCustomerUsageLimit($perCustomerUsageLimit);
 }
