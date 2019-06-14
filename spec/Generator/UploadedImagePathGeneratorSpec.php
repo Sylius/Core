@@ -25,9 +25,8 @@ final class UploadedImagePathGeneratorSpec extends ObjectBehavior
         $this->shouldImplement(ImagePathGeneratorInterface::class);
     }
 
-    function it_generates_random_hashed_path_for_the_image(
-        ImageInterface $image
-    ): void {
+    function it_generates_random_hashed_path_for_the_image(ImageInterface $image): void
+    {
         $file = new UploadedFile(__DIR__.'/ford.jpg', 'ford.jpg', null, null, true);
 
         $image->getFile()->willReturn($file);
