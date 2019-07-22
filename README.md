@@ -1,7 +1,7 @@
 Core Component [![Build status...](https://secure.travis-ci.org/Sylius/Core.png?branch=master)](http://travis-ci.org/Sylius/Core)
 ==============
 
-Sylius core - it integrates all other components into an eCommerce framework for PHP.
+Sylius core - it integrates all other components into an eCommerce platform for PHP.
 
 Sylius
 ------
