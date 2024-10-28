@@ -22,20 +22,10 @@ use Webmozart\Assert\Assert;
 
 class ImageUploader implements ImageUploaderInterface
 {
-    private const MIME_SVG_XML = 'image/svg+xml';
-
-    private const MIME_SVG = 'image/svg';
-
-    /** @var \enshrined\svgSanitize\Sanitizer|null */
-    protected ?object $sanitizer = null;
-
     public function __construct(
-        protected FilesystemAdapterInterface $filesystem,
-        protected ImagePathGeneratorInterface $imagePathGenerator,
+        protected readonly FilesystemAdapterInterface $filesystem,
+        protected readonly ImagePathGeneratorInterface $imagePathGenerator,
     ) {
-        if (class_exists(\enshrined\svgSanitize\Sanitizer::class)) {
-            $this->sanitizer = new \enshrined\svgSanitize\Sanitizer();
-        }
     }
 
     public function upload(ImageInterface $image): void
@@ -49,8 +39,6 @@ class ImageUploader implements ImageUploaderInterface
 
         Assert::isInstanceOf($file, File::class);
 
-        $fileContent = $this->sanitizeContent(file_get_contents($file->getPathname()), $file->getMimeType());
-
         if (null !== $image->getPath() && $this->filesystem->has($image->getPath())) {
             $this->remove($image->getPath());
         }
@@ -61,7 +49,7 @@ class ImageUploader implements ImageUploaderInterface
 
         $image->setPath($path);
 
-        $this->filesystem->write($image->getPath(), $fileContent);
+        $this->filesystem->write($image->getPath(), file_get_contents($file->getPathname()));
     }
 
     public function remove(string $path): bool
@@ -73,15 +61,6 @@ class ImageUploader implements ImageUploaderInterface
         }
 
         return true;
-    }
-
-    protected function sanitizeContent(string $fileContent, string $mimeType): string
-    {
-        if ((self::MIME_SVG_XML === $mimeType || self::MIME_SVG === $mimeType) && $this->sanitizer !== null) {
-            $fileContent = $this->sanitizer->sanitize($fileContent);
-        }
-
-        return $fileContent;
     }
 
     /**
