@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sylius\Component\Core\Uploader;
 
-use enshrined\svgSanitize\Sanitizer;
 use Gaufrette\FilesystemInterface;
 use Sylius\Component\Core\Filesystem\Adapter\FilesystemAdapterInterface;
 use Sylius\Component\Core\Filesystem\Adapter\GaufretteFilesystemAdapter;
@@ -30,8 +29,8 @@ class ImageUploader implements ImageUploaderInterface
 
     private const MIME_SVG = 'image/svg';
 
-    /** @var Sanitizer */
-    protected $sanitizer;
+    /** @var \enshrined\svgSanitize\Sanitizer|null */
+    protected ?object $sanitizer = null;
 
     public function __construct(
         /** @var FilesystemAdapterInterface $filesystem */
@@ -59,7 +58,10 @@ class ImageUploader implements ImageUploaderInterface
         }
 
         $this->imagePathGenerator = $imagePathGenerator ?? new UploadedImagePathGenerator();
-        $this->sanitizer = new Sanitizer();
+
+        if (class_exists(\enshrined\svgSanitize\Sanitizer::class)) {
+            $this->sanitizer = new \enshrined\svgSanitize\Sanitizer();
+        }
     }
 
     public function upload(ImageInterface $image): void
@@ -101,7 +103,7 @@ class ImageUploader implements ImageUploaderInterface
 
     protected function sanitizeContent(string $fileContent, string $mimeType): string
     {
-        if (self::MIME_SVG_XML === $mimeType || self::MIME_SVG === $mimeType) {
+        if ((self::MIME_SVG_XML === $mimeType || self::MIME_SVG === $mimeType) && $this->sanitizer !== null) {
             $fileContent = $this->sanitizer->sanitize($fileContent);
         }
 
