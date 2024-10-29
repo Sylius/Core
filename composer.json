@@ -27,7 +27,6 @@
     ],
     "require": {
         "php": "^8.2",
-        "enshrined/svg-sanitize": "^0.20",
         "guzzlehttp/guzzle": "^7.9",
         "knplabs/gaufrette": "^0.11",
         "laminas/laminas-stdlib": "^3.19",
