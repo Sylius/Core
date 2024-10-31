@@ -16,7 +16,7 @@ namespace spec\Sylius\Component\Core\Test\Services;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Channel\Factory\ChannelFactoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\Component\Core\Model\ShopBillingData;
+use Sylius\Component\Core\Model\ShopBillingDataInterface;
 use Sylius\Component\Core\Test\Services\DefaultChannelFactoryInterface;
 use Sylius\Component\Currency\Model\CurrencyInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
@@ -32,6 +32,7 @@ final class DefaultChannelFactorySpec extends ObjectBehavior
         RepositoryInterface $channelRepository,
         RepositoryInterface $currencyRepository,
         RepositoryInterface $localeRepository,
+        FactoryInterface $shopBillingDataFactory,
     ): void {
         $this->beConstructedWith(
             $channelFactory,
@@ -41,6 +42,7 @@ final class DefaultChannelFactorySpec extends ObjectBehavior
             $currencyRepository,
             $localeRepository,
             'en_US',
+            $shopBillingDataFactory,
         );
     }
 
@@ -56,9 +58,11 @@ final class DefaultChannelFactorySpec extends ObjectBehavior
         RepositoryInterface $channelRepository,
         RepositoryInterface $currencyRepository,
         RepositoryInterface $localeRepository,
+        FactoryInterface $shopBillingDataFactory,
         ChannelInterface $channel,
         CurrencyInterface $currency,
         LocaleInterface $locale,
+        ShopBillingDataInterface $shopBillingData,
     ): void {
         $localeFactory->createNew()->willReturn($locale);
         $locale->setCode('en_US')->shouldBeCalled();
@@ -68,6 +72,8 @@ final class DefaultChannelFactorySpec extends ObjectBehavior
 
         $channelFactory->createNamed('Default')->willReturn($channel);
 
+        $shopBillingDataFactory->createNew()->willReturn($shopBillingData);
+
         $channel->setCode('DEFAULT')->shouldBeCalled();
         $channel->setTaxCalculationStrategy('order_items_based')->shouldBeCalled();
 
@@ -76,7 +82,7 @@ final class DefaultChannelFactorySpec extends ObjectBehavior
         $channel->addLocale($locale)->shouldBeCalled();
         $channel->setDefaultLocale($locale)->shouldBeCalled();
         $channel->getShopBillingData()->willReturn(null);
-        $channel->setShopBillingData(new ShopBillingData())->shouldBeCalled();
+        $channel->setShopBillingData($shopBillingData)->shouldBeCalled();
 
         $currencyRepository->findOneBy(['code' => 'USD'])->willReturn(null);
         $localeRepository->findOneBy(['code' => 'en_US'])->willReturn(null);
