@@ -15,7 +15,7 @@ namespace Sylius\Component\Core\Test\Services;
 
 use Sylius\Component\Channel\Factory\ChannelFactoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\Component\Core\Model\ShopBillingData;
+use Sylius\Component\Core\Model\ShopBillingDataInterface;
 use Sylius\Component\Currency\Model\CurrencyInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
@@ -32,18 +32,20 @@ final class DefaultChannelFactory implements DefaultChannelFactoryInterface
     /**
      * @param FactoryInterface<CurrencyInterface> $currencyFactory
      * @param FactoryInterface<LocaleInterface> $localeFactory
+     * @param FactoryInterface<ShopBillingDataInterface> $shopBillingDataFactory
      * @param RepositoryInterface<ChannelInterface> $channelRepository
      * @param RepositoryInterface<CurrencyInterface> $currencyRepository
      * @param RepositoryInterface<LocaleInterface> $localeRepository
      */
     public function __construct(
-        private ChannelFactoryInterface $channelFactory,
-        private FactoryInterface $currencyFactory,
-        private FactoryInterface $localeFactory,
-        private RepositoryInterface $channelRepository,
-        private RepositoryInterface $currencyRepository,
-        private RepositoryInterface $localeRepository,
-        private string $defaultLocaleCode,
+        private readonly ChannelFactoryInterface $channelFactory,
+        private readonly FactoryInterface $currencyFactory,
+        private readonly FactoryInterface $localeFactory,
+        private readonly FactoryInterface $shopBillingDataFactory,
+        private readonly RepositoryInterface $channelRepository,
+        private readonly RepositoryInterface $currencyRepository,
+        private readonly RepositoryInterface $localeRepository,
+        private readonly string $defaultLocaleCode,
     ) {
     }
 
@@ -63,7 +65,7 @@ final class DefaultChannelFactory implements DefaultChannelFactoryInterface
         $channel->addLocale($locale);
         $channel->setDefaultLocale($locale);
         if ($channel->getShopBillingData() === null) {
-            $channel->setShopBillingData(new ShopBillingData());
+            $channel->setShopBillingData($this->shopBillingDataFactory->createNew());
         }
 
         $this->channelRepository->add($channel);
