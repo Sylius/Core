@@ -32,20 +32,20 @@ final class DefaultChannelFactory implements DefaultChannelFactoryInterface
     /**
      * @param FactoryInterface<CurrencyInterface> $currencyFactory
      * @param FactoryInterface<LocaleInterface> $localeFactory
+     * @param FactoryInterface<ShopBillingDataInterface> $shopBillingDataFactory
      * @param RepositoryInterface<ChannelInterface> $channelRepository
      * @param RepositoryInterface<CurrencyInterface> $currencyRepository
      * @param RepositoryInterface<LocaleInterface> $localeRepository
-     * @param FactoryInterface<ShopBillingDataInterface> $shopBillingDataFactory
      */
     public function __construct(
         private readonly ChannelFactoryInterface $channelFactory,
         private readonly FactoryInterface $currencyFactory,
         private readonly FactoryInterface $localeFactory,
+        private readonly FactoryInterface $shopBillingDataFactory,
         private readonly RepositoryInterface $channelRepository,
         private readonly RepositoryInterface $currencyRepository,
         private readonly RepositoryInterface $localeRepository,
         private readonly string $defaultLocaleCode,
-        private readonly FactoryInterface $shopBillingDataFactory,
     ) {
     }
 

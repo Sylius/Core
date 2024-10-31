@@ -38,11 +38,11 @@ final class DefaultChannelFactorySpec extends ObjectBehavior
             $channelFactory,
             $currencyFactory,
             $localeFactory,
+            $shopBillingDataFactory,
             $channelRepository,
             $currencyRepository,
             $localeRepository,
             'en_US',
-            $shopBillingDataFactory,
         );
     }
 
@@ -55,10 +55,10 @@ final class DefaultChannelFactorySpec extends ObjectBehavior
         ChannelFactoryInterface $channelFactory,
         FactoryInterface $currencyFactory,
         FactoryInterface $localeFactory,
+        FactoryInterface $shopBillingDataFactory,
         RepositoryInterface $channelRepository,
         RepositoryInterface $currencyRepository,
         RepositoryInterface $localeRepository,
-        FactoryInterface $shopBillingDataFactory,
         ChannelInterface $channel,
         CurrencyInterface $currency,
         LocaleInterface $locale,
