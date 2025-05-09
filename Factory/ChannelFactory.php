@@ -54,7 +54,6 @@ final class ChannelFactory implements ChannelFactoryInterface
     {
         $channel = $this->createNew();
         $channel->setName($name);
-        Assert::isInstanceOf($channel, ChannelInterface::class);
 
         return $channel;
     }
