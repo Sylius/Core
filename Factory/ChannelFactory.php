@@ -17,7 +17,6 @@ use Sylius\Component\Channel\Factory\ChannelFactoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ChannelPriceHistoryConfigInterface;
 use Sylius\Resource\Factory\FactoryInterface;
-use Webmozart\Assert\Assert;
 
 /**
  * @template T of ChannelInterface
