@@ -11,15 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Sylius\Component\Core\Statistics\Provider\OrdersTotals;
+namespace Sylius\Component\Core\Statistics\Provider\OrdersCount;
 
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Statistics\Provider\SalesProviderInterface;
 
-interface OrdersTotalsProviderInterface extends SalesProviderInterface
+interface OrdersCountProviderInterface extends SalesProviderInterface
 {
-    /**
-     * @return array<array-key, array{period: \DateTimeInterface, total: int}>
-     */
+    /** @return array<array-key, array{period: \DateTimeInterface, count: int}> */
     public function provideForPeriodInChannel(\DatePeriod $period, ChannelInterface $channel): array;
 }

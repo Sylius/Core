@@ -85,7 +85,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "spec\\Sylius\\Component\\Core\\": "spec/"
+            "spec\\Sylius\\Component\\Core\\": "spec/",
+            "Tests\\Sylius\\Component\\Core\\": "tests/"
         }
     },
     "repositories": [
