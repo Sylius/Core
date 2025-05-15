@@ -24,9 +24,10 @@ final class DayBasedOrdersCountProvider implements OrdersCountProviderInterface
     {
     }
 
+    /** @return array<array-key, array{period: \DateTimeInterface, count: int}> */
     public function provideForPeriodInChannel(\DatePeriod $period, ChannelInterface $channel): array
     {
-        /** @param array<array-key, array{total: string|int, year: int, month: int, day: int}> $amounts */
+        /** @param array<array-key, array{orders_count: string|int, year: int, month: int, day: int}> $amounts */
         $amounts = $this->orderRepository->countGroupedPaidForChannelInPeriod(
             $channel,
             $period->getStartDate(),

@@ -24,9 +24,10 @@ final class MonthBasedOrdersCountProvider implements OrdersCountProviderInterfac
     {
     }
 
+    /** @return array<array-key, array{period: \DateTimeInterface, count: int}> */
     public function provideForPeriodInChannel(\DatePeriod $period, ChannelInterface $channel): array
     {
-        /** @param array<array{total: string|int, year: int, month: int}> $amounts */
+        /** @param array<array{orders_count: string|int, year: int, month: int}> $amounts */
         $amounts = $this->orderRepository->countGroupedPaidForChannelInPeriod(
             $channel,
             $period->getStartDate(),

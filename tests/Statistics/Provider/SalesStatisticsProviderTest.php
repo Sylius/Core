@@ -134,6 +134,7 @@ final class SalesStatisticsProviderTest extends TestCase
         ];
 
         $firstRegistry->method('getByType')->willReturn(new class($firstProvider) implements SalesProviderInterface {
+            /** @param array<array{period: \DateTimeImmutable, ...}> $data */
             public function __construct(private array $data) {}
 
             public function provideForPeriodInChannel(\DatePeriod $period, ChannelInterface $channel): array {
@@ -142,6 +143,7 @@ final class SalesStatisticsProviderTest extends TestCase
         });
 
         $secondRegistry->method('getByType')->willReturn(new class($secondProvider) implements SalesProviderInterface {
+            /** @param array<array{period: \DateTimeImmutable, ...}> $data */
             public function __construct(private array $data) {}
 
             public function provideForPeriodInChannel(\DatePeriod $period, ChannelInterface $channel): array {

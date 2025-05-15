@@ -26,7 +26,10 @@ final class SalesStatisticsProvider implements SalesStatisticsProviderInterface
     /** @var array<StatisticsProviderRegistryInterface> */
     private array $statisticsProviderRegistries = [];
 
-    /** @param array<string, array{interval: string, period_format: string}> $intervalsMap */
+    /**
+     * @param array<string, array{interval: string, period_format: string}> $intervalsMap
+     * @param iterable<StatisticsProviderRegistryInterface> $statisticsProviderRegistries
+     */
     public function __construct(
         private OrdersTotalsProviderRegistryInterface $ordersTotalsProviderRegistry,
         array $intervalsMap,
@@ -86,6 +89,11 @@ final class SalesStatisticsProvider implements SalesStatisticsProviderInterface
         return $this->withFormattedDates($data, $format);
     }
 
+    /**
+     * @param array<array{period: \DateTimeInterface, ...}> $sales
+     *
+     * @return array<array{period: string, ...}>
+     */
     private function withFormattedDates(array $sales, string $format): array
     {
         return array_map(
@@ -104,7 +112,13 @@ final class SalesStatisticsProvider implements SalesStatisticsProviderInterface
         return $this->formatsMap[$intervalType];
     }
 
-    function mergeArraysByPeriod(array $firstArray, array $secondArray): array
+    /**
+     * @param array<array{period: \DateTimeInterface, ...}> $firstArray
+     * @param array<array{period: \DateTimeInterface, ...}> $secondArray
+     *
+     * @return array<array{period: \DateTimeInterface, ...}>
+     */
+    private function mergeArraysByPeriod(array $firstArray, array $secondArray): array
     {
         $indexByPeriod = function(array $items) {
             $result = [];
