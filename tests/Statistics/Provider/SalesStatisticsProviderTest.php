@@ -21,17 +21,22 @@ use Sylius\Component\Core\Statistics\Provider\SalesProviderInterface;
 use Sylius\Component\Core\Statistics\Provider\SalesStatisticsProvider;
 use Sylius\Component\Core\Statistics\Registry\OrdersTotalsProviderRegistryInterface;
 use Sylius\Component\Core\Statistics\Registry\StatisticsProviderRegistryInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 final class SalesStatisticsProviderTest extends TestCase
 {
     private MockObject&OrdersTotalsProviderRegistryInterface $ordersTotalsProviderRegistry;
+
+    private MockObject&CacheInterface $cache;
 
     private MockObject&ChannelInterface $channel;
 
     protected function setUp(): void
     {
         $this->ordersTotalsProviderRegistry = $this->createMock(OrdersTotalsProviderRegistryInterface::class);
+        $this->cache = $this->createMock(CacheInterface::class);
         $this->channel = $this->createMock(ChannelInterface::class);
+
     }
 
     public function testThrowsExceptionWhenIntervalTypeIsUnknown(): void
@@ -167,5 +172,43 @@ final class SalesStatisticsProviderTest extends TestCase
             ['period' => '2020-01-01', 'total' => 1000, 'orders_count' => 5],
             ['period' => '2020-01-02', 'total' => 2000, 'orders_count' => 10],
         ], $result);
+    }
+
+    public function testUsesCacheWhenAvailable(): void
+    {
+        $salesData = [
+            ['period' => new \DateTimeImmutable('2024-01-01'), 'total' => 999],
+        ];
+
+        $provider = $this->createMock(OrdersTotalsProviderInterface::class);
+        $provider->method('provideForPeriodInChannel')->willReturn($salesData);
+
+        $this->ordersTotalsProviderRegistry->method('getByType')->willReturn($provider);
+
+        $this->cache
+            ->expects($this->once())
+            ->method('get')
+            ->with(
+                $this->callback(fn (string $key) => str_starts_with($key, 'sylius_sales_statistics.day.')),
+                $this->callback(fn (callable $callback) => true)
+            )
+            ->willReturn([
+                ['period' => '2024-01-01', 'total' => 999],
+            ]);
+
+        $provider = new SalesStatisticsProvider(
+            $this->ordersTotalsProviderRegistry,
+            ['day' => ['interval' => 'P1D', 'period_format' => 'Y-m-d']],
+            [],
+            $this->cache,
+        );
+
+        $result = $provider->provide(
+            'day',
+            new \DatePeriod(new \DateTimeImmutable('2024-01-01'), new \DateInterval('P1D'), 1),
+            $this->channel,
+        );
+
+        $this->assertSame([['period' => '2024-01-01', 'total' => 999]], $result);
     }
 }

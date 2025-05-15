@@ -16,6 +16,8 @@ namespace Sylius\Component\Core\Statistics\Provider;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Statistics\Registry\OrdersTotalsProviderRegistryInterface;
 use Sylius\Component\Core\Statistics\Registry\StatisticsProviderRegistryInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 use Webmozart\Assert\Assert;
 
 final class SalesStatisticsProvider implements SalesStatisticsProviderInterface
@@ -31,12 +33,22 @@ final class SalesStatisticsProvider implements SalesStatisticsProviderInterface
      * @param iterable<StatisticsProviderRegistryInterface> $statisticsProviderRegistries
      */
     public function __construct(
-        private OrdersTotalsProviderRegistryInterface $ordersTotalsProviderRegistry,
+        private readonly OrdersTotalsProviderRegistryInterface $ordersTotalsProviderRegistry,
         array $intervalsMap,
         iterable|null $statisticsProviderRegistries = null,
+        private readonly CacheInterface|null $cache = null,
+        private readonly int $cacheExpiresAfter = 1800,
     ) {
         foreach ($intervalsMap as $type => $intervalMap) {
             $this->formatsMap[$type] = $intervalMap['period_format'];
+        }
+
+        if ($cache === null) {
+            trigger_deprecation(
+                'sylius/core',
+                '2.1',
+                'Not passing $cache through constructor is deprecated and will be prohibited in Sylius 3.0.',
+            );
         }
 
         if ($statisticsProviderRegistries === null) {
@@ -61,7 +73,28 @@ final class SalesStatisticsProvider implements SalesStatisticsProviderInterface
     {
         $format = $this->getPeriodFormat($intervalType);
 
-        if ($this->statisticsProviderRegistries == []) {
+        if ($this->cache === null) {
+            return $this->getStatisticsData($intervalType, $datePeriod, $channel, $format);
+        }
+
+        return $this->cache->get(
+            $this->buildCacheKey($intervalType, $datePeriod, $channel),
+            function (ItemInterface $item) use ($intervalType, $datePeriod, $channel, $format): array {
+                $item->expiresAfter($this->cacheExpiresAfter);
+
+                return $this->getStatisticsData($intervalType, $datePeriod, $channel, $format);
+            }
+        );
+    }
+
+    /** @return array<array{period: string, ...}> */
+    private function getStatisticsData(
+        string $intervalType,
+        \DatePeriod $datePeriod,
+        ChannelInterface $channel,
+        string $format,
+    ): array {
+        if ($this->statisticsProviderRegistries === []) {
             $sales = $this->ordersTotalsProviderRegistry
                 ->getByType($intervalType)
                 ->provideForPeriodInChannel($datePeriod, $channel)
@@ -77,16 +110,18 @@ final class SalesStatisticsProvider implements SalesStatisticsProviderInterface
                 ->provideForPeriodInChannel($datePeriod, $channel)
             ;
 
-            if ($data === []) {
-                $data = $result;
-
-                continue;
-            }
-
-            $data = $this->mergeArraysByPeriod($data, $result);
+            $data = $data === [] ? $result : $this->mergeArraysByPeriod($data, $result);
         }
 
         return $this->withFormattedDates($data, $format);
+    }
+
+    private function buildCacheKey(string $intervalType, \DatePeriod $datePeriod, ChannelInterface $channel): string
+    {
+        $start = $datePeriod->getStartDate()->format('YmdH');
+        $end = $datePeriod->getEndDate()?->format('YmdH') ?? 'null';
+
+        return sprintf('sylius_sales_statistics.%s.%s.%s.%s', $intervalType, $start, $end, $channel->getCode());
     }
 
     /**
