@@ -20,7 +20,7 @@
     </php>
 
     <testsuites>
-        <testsuite name="sylius_currency_component_test_suite">
+        <testsuite name="sylius_core_component_test_suite">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>

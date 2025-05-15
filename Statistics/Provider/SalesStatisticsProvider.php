@@ -120,43 +120,61 @@ final class SalesStatisticsProvider implements SalesStatisticsProviderInterface
      */
     private function mergeArraysByPeriod(array $firstArray, array $secondArray): array
     {
-        $indexByPeriod = function(array $items) {
-            $result = [];
-            foreach ($items as $item) {
-                if (!isset($item['period']) || !$item['period'] instanceof \DateTimeInterface) {
-                    continue;
-                }
-                $key = $item['period']->format('c');
-                $result[$key] = $item;
-            }
+        return iterator_to_array($this->generateMergedByPeriod($firstArray, $secondArray));
+    }
 
-            return $result;
-        };
+    /**
+     * @param array<array{period: \DateTimeInterface, ...}> $firstArray
+     * @param array<array{period: \DateTimeInterface, ...}> $secondArray
+     *
+     * @return \Generator<array{period: \DateTimeInterface, ...}>
+     */
+    private function generateMergedByPeriod(array $firstArray, array $secondArray): \Generator
+    {
+        [$indexedFirstArray, $firstArrayKeys] = $this->indexByPeriodWithKeys($firstArray);
+        [$indexedSecondArray, $secondArrayKeys] = $this->indexByPeriodWithKeys($secondArray);
 
-        $indexedFirstArray = $indexByPeriod($firstArray);
-        $indexedSecondArray = $indexByPeriod($secondArray);
+        $allKeys = array_keys(array_merge(
+            array_fill_keys($firstArrayKeys, true),
+            array_fill_keys($secondArrayKeys, true),
+        ));
 
-        $allKeys = array_unique(array_merge(array_keys($indexedFirstArray), array_keys($indexedSecondArray)));
-
-        $result = [];
         foreach ($allKeys as $key) {
             $itemFromFirstArray = $indexedFirstArray[$key] ?? [];
             $itemFromSecondArray = $indexedSecondArray[$key] ?? [];
 
             $period = $itemFromFirstArray['period'] ?? $itemFromSecondArray['period'] ?? null;
-            if (!$period instanceof \DateTimeInterface) {
-                continue;
-            }
+            Assert::isInstanceOf($period, \DateTimeInterface::class);
 
             unset($itemFromFirstArray['period'], $itemFromSecondArray['period']);
 
-            $result[] = array_merge(
+            yield array_merge(
                 ['period' => $period],
                 $itemFromFirstArray,
                 $itemFromSecondArray,
             );
         }
+    }
 
-        return $result;
+    /**
+     * @param array<array{period: \DateTimeInterface, ...}> $items
+     *
+     * @return array{0: array<string, array{period: \DateTimeInterface, ...}>, 1: string[]}
+     */
+    private function indexByPeriodWithKeys(array $items): array
+    {
+        $result = [];
+        $keys = [];
+
+        foreach ($items as $item) {
+            $period = $item['period'] ?? null;
+            Assert::isInstanceOf($period, \DateTimeInterface::class);
+
+            $key = $period->format('c');
+            $result[$key] = $item;
+            $keys[] = $key;
+        }
+
+        return [$result, $keys];
     }
 }
