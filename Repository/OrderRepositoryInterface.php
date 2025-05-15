@@ -117,7 +117,7 @@ interface OrderRepositoryInterface extends BaseOrderRepositoryInterface
     /**
      * @param array<string, string> $groupBy
      *
-     * @return array<array{orders_count: int, year: int, month: int, day: int}>
+     * @return array<array{paid_orders_count: int, year: int, month: int, day: int}>
      */
     public function countGroupedPaidForChannelInPeriod(
         ChannelInterface $channel,

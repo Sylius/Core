@@ -24,10 +24,10 @@ final class YearBasedOrdersCountProvider implements OrdersCountProviderInterface
     {
     }
 
-    /** @return array<array-key, array{period: \DateTimeInterface, count: int}> */
+    /** @return array<array-key, array{period: \DateTimeInterface, paidOrdersCount: int}> */
     public function provideForPeriodInChannel(\DatePeriod $period, ChannelInterface $channel): array
     {
-        /** @var array<array{orders_count: string|int, year: int}> $amounts */
+        /** @var array<array{paid_orders_count: string|int, year: int}> $amounts */
         $amounts = $this->orderRepository->countGroupedPaidForChannelInPeriod(
             $channel,
             $period->getStartDate(),
@@ -41,21 +41,21 @@ final class YearBasedOrdersCountProvider implements OrdersCountProviderInterface
         foreach ($period as $date) {
             $result[] = [
                 'period' => $date,
-                'count' => $this->getAmountForDate($amounts, $date),
+                'paidOrdersCount' => $this->getAmountForDate($amounts, $date),
             ];
         }
 
         return $result;
     }
 
-    /** @param array<array{orders_count: string|int, year: int}> $amounts */
+    /** @param array<array{paid_orders_count: string|int, year: int}> $amounts */
     private function getAmountForDate(array $amounts, \DateTimeInterface $date): int
     {
         $formattedPeriodDate = $date->format('Y');
 
         foreach ($amounts as $entry) {
             if ($formattedPeriodDate === (string) $entry['year']) {
-                return (int) $entry['orders_count'];
+                return (int) $entry['paid_orders_count'];
             }
         }
 

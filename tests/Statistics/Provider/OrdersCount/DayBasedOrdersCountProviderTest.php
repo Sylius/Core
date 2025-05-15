@@ -52,9 +52,9 @@ final class DayBasedOrdersCountProviderTest extends TestCase
             ->willReturn([]);
 
         $expected = [
-            ['period' => \DateTimeImmutable::createFromFormat('Y-m-d H:i', '1999-01-01 00:00'), 'count' => 0],
-            ['period' => \DateTimeImmutable::createFromFormat('Y-m-d H:i', '1999-01-02 00:00'), 'count' => 0],
-            ['period' => \DateTimeImmutable::createFromFormat('Y-m-d H:i', '1999-01-03 00:00'), 'count' => 0],
+            ['period' => \DateTimeImmutable::createFromFormat('Y-m-d H:i', '1999-01-01 00:00'), 'paidOrdersCount' => 0],
+            ['period' => \DateTimeImmutable::createFromFormat('Y-m-d H:i', '1999-01-02 00:00'), 'paidOrdersCount' => 0],
+            ['period' => \DateTimeImmutable::createFromFormat('Y-m-d H:i', '1999-01-03 00:00'), 'paidOrdersCount' => 0],
         ];
 
         $this->assertEquals($expected, $this->provider->provideForPeriodInChannel($period, $channel));
@@ -72,15 +72,15 @@ final class DayBasedOrdersCountProviderTest extends TestCase
             ->method('countGroupedPaidForChannelInPeriod')
             ->with($channel, $start, $end, self::GROUP_SELECT)
             ->willReturn([
-                ['year' => 1999, 'month' => 1, 'day' => 1, 'orders_count' => 1],
-                ['year' => 1999, 'month' => 1, 'day' => 2, 'orders_count' => 2],
-                ['year' => 1999, 'month' => 1, 'day' => 3, 'orders_count' => 3],
+                ['year' => 1999, 'month' => 1, 'day' => 1, 'paid_orders_count' => 1],
+                ['year' => 1999, 'month' => 1, 'day' => 2, 'paid_orders_count' => 2],
+                ['year' => 1999, 'month' => 1, 'day' => 3, 'paid_orders_count' => 3],
             ]);
 
         $expected = [
-            ['period' => \DateTimeImmutable::createFromFormat('Y-m-d H:i', '1999-01-01 00:00'), 'count' => 1],
-            ['period' => \DateTimeImmutable::createFromFormat('Y-m-d H:i', '1999-01-02 00:00'), 'count' => 2],
-            ['period' => \DateTimeImmutable::createFromFormat('Y-m-d H:i', '1999-01-03 00:00'), 'count' => 3],
+            ['period' => \DateTimeImmutable::createFromFormat('Y-m-d H:i', '1999-01-01 00:00'), 'paidOrdersCount' => 1],
+            ['period' => \DateTimeImmutable::createFromFormat('Y-m-d H:i', '1999-01-02 00:00'), 'paidOrdersCount' => 2],
+            ['period' => \DateTimeImmutable::createFromFormat('Y-m-d H:i', '1999-01-03 00:00'), 'paidOrdersCount' => 3],
         ];
 
         $this->assertEquals($expected, $this->provider->provideForPeriodInChannel($period, $channel));
@@ -98,14 +98,14 @@ final class DayBasedOrdersCountProviderTest extends TestCase
             ->method('countGroupedPaidForChannelInPeriod')
             ->with($channel, $start, $end, self::GROUP_SELECT)
             ->willReturn([
-                ['year' => 1999, 'month' => 1, 'day' => 1, 'orders_count' => 1],
-                ['year' => 1999, 'month' => 1, 'day' => 3, 'orders_count' => 3],
+                ['year' => 1999, 'month' => 1, 'day' => 1, 'paid_orders_count' => 1],
+                ['year' => 1999, 'month' => 1, 'day' => 3, 'paid_orders_count' => 3],
             ]);
 
         $expected = [
-            ['period' => \DateTimeImmutable::createFromFormat('Y-m-d H:i', '1999-01-01 00:00'), 'count' => 1],
-            ['period' => \DateTimeImmutable::createFromFormat('Y-m-d H:i', '1999-01-02 00:00'), 'count' => 0],
-            ['period' => \DateTimeImmutable::createFromFormat('Y-m-d H:i', '1999-01-03 00:00'), 'count' => 3],
+            ['period' => \DateTimeImmutable::createFromFormat('Y-m-d H:i', '1999-01-01 00:00'), 'paidOrdersCount' => 1],
+            ['period' => \DateTimeImmutable::createFromFormat('Y-m-d H:i', '1999-01-02 00:00'), 'paidOrdersCount' => 0],
+            ['period' => \DateTimeImmutable::createFromFormat('Y-m-d H:i', '1999-01-03 00:00'), 'paidOrdersCount' => 3],
         ];
 
         $this->assertEquals($expected, $this->provider->provideForPeriodInChannel($period, $channel));
