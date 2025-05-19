@@ -26,7 +26,7 @@ final class YearBasedOrdersCountProviderTest extends TestCase
         'year' => 'YEAR(o.checkoutCompletedAt) AS year',
     ];
 
-    private OrderRepositoryInterface&MockObject $orderRepository;
+    private MockObject&OrderRepositoryInterface $orderRepository;
 
     private OrdersCountProviderInterface $provider;
 

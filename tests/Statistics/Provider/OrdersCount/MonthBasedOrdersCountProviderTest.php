@@ -27,7 +27,7 @@ final class MonthBasedOrdersCountProviderTest extends TestCase
         'month' => 'MONTH(o.checkoutCompletedAt) AS month',
     ];
 
-    private OrderRepositoryInterface&MockObject $orderRepository;
+    private MockObject&OrderRepositoryInterface $orderRepository;
 
     private OrdersCountProviderInterface $provider;
 

@@ -28,7 +28,7 @@ final class DayBasedOrdersCountProviderTest extends TestCase
         'day' => 'DAY(o.checkoutCompletedAt) AS day',
     ];
 
-    private OrderRepositoryInterface&MockObject $orderRepository;
+    private MockObject&OrderRepositoryInterface $orderRepository;
 
     private OrdersCountProviderInterface $provider;
 

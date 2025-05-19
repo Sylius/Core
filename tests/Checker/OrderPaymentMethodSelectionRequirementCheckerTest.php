@@ -26,15 +26,15 @@ use Sylius\Component\Payment\Resolver\PaymentMethodsResolverInterface;
 
 final class OrderPaymentMethodSelectionRequirementCheckerTest extends TestCase
 {
-    private PaymentMethodsResolverInterface&MockObject $paymentMethodsResolver;
+    private MockObject&PaymentMethodsResolverInterface $paymentMethodsResolver;
 
-    private OrderInterface&MockObject $order;
+    private MockObject&OrderInterface $order;
 
     private ChannelInterface&MockObject $channel;
 
-    private PaymentInterface&MockObject $payment;
+    private MockObject&PaymentInterface $payment;
 
-    private PaymentMethodInterface&MockObject $paymentMethod;
+    private MockObject&PaymentMethodInterface $paymentMethod;
 
     private OrderPaymentMethodSelectionRequirementChecker $checker;
 
