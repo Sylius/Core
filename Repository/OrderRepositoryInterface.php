@@ -127,4 +127,6 @@ interface OrderRepositoryInterface extends BaseOrderRepositoryInterface
     ): array;
 
     public function findOneWithCompletedCheckout(string $tokenValue): ?OrderInterface;
+
+    public function countNewByChannel(ChannelInterface $channel): int;
 }
