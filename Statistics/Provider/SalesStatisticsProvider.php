@@ -35,8 +35,8 @@ final class SalesStatisticsProvider implements SalesStatisticsProviderInterface
     public function __construct(
         private readonly OrdersTotalsProviderRegistryInterface $ordersTotalsProviderRegistry,
         array $intervalsMap,
-        iterable|null $statisticsProviderRegistries = null,
-        private readonly CacheInterface|null $cache = null,
+        iterable $statisticsProviderRegistries = [],
+        private readonly ?CacheInterface $cache = null,
         private readonly int $cacheExpiresAfter = 1800,
     ) {
         foreach ($intervalsMap as $type => $intervalMap) {
@@ -51,7 +51,7 @@ final class SalesStatisticsProvider implements SalesStatisticsProviderInterface
             );
         }
 
-        if ($statisticsProviderRegistries === null) {
+        if ($statisticsProviderRegistries === []) {
             trigger_deprecation(
                 'sylius/core',
                 '2.1',
