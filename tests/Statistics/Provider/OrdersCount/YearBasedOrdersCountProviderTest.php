@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Sylius\Component\Core\tests\Statistics\Provider\OrdersCount;
+namespace Tests\Sylius\Component\Core\Statistics\Provider\OrdersCount;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

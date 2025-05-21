@@ -56,7 +56,7 @@ final class MinimumPriceDistributorTest extends TestCase
         $this->distributor = new MinimumPriceDistributor($this->proportionalIntegerDistributor);
     }
 
-    public function testShouldDistributePromotionTakingIntoAccountMinimumPrice()
+    public function testShouldDistributePromotionTakingIntoAccountMinimumPrice(): void
     {
         $shoes = $this->createMock(OrderItemInterface::class);
         $shoesVariant = $this->createMock(ProductVariantInterface::class);
@@ -113,7 +113,7 @@ final class MinimumPriceDistributorTest extends TestCase
         );
     }
 
-    public function testShouldDistributePromotionTakingIntoAccountMinimumPriceWithQuantity()
+    public function testShouldDistributePromotionTakingIntoAccountMinimumPriceWithQuantity(): void
     {
         $this->tshirt->expects($this->atLeastOnce())->method('getTotal')->willReturn(5000);
         $this->tshirt->expects($this->once())->method('getQuantity')->willReturn(1);
@@ -144,7 +144,7 @@ final class MinimumPriceDistributorTest extends TestCase
         );
     }
 
-    public function testShouldDistributePromotionThatExceedsPossibleDistributionTakingIntoAccountMinimumPrice()
+    public function testShouldDistributePromotionThatExceedsPossibleDistributionTakingIntoAccountMinimumPrice(): void
     {
         $this->tshirt->expects($this->atLeastOnce())->method('getTotal')->willReturn(5000);
         $this->tshirt->expects($this->once())->method('getQuantity')->willReturn(1);
@@ -175,7 +175,7 @@ final class MinimumPriceDistributorTest extends TestCase
         );
     }
 
-    public function testShouldDistributePromotionForProductsWithoutPromotionsIfPromotionDoesNotApplyOnCatalogPromotion()
+    public function testShouldDistributePromotionForProductsWithoutPromotionsIfPromotionDoesNotApplyOnCatalogPromotion(): void
     {
         $this->tshirt->expects($this->atLeastOnce())->method('getTotal')->willReturn(5000);
         $this->tshirt->expects($this->once())->method('getQuantity')->willReturn(1);

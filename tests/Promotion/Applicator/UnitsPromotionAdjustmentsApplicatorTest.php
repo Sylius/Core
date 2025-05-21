@@ -53,6 +53,8 @@ final class UnitsPromotionAdjustmentsApplicatorTest extends TestCase
 
     private MockObject&OrderItemUnitInterface $secondColtUnit;
 
+    private MockObject&OrderItemUnitInterface $thirdColtUnit;
+
     private MockObject&PromotionInterface $promotion;
 
     private ChannelInterface&MockObject $channel;

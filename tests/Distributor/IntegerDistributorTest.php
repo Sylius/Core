@@ -32,13 +32,14 @@ final class IntegerDistributorTest extends TestCase
         $this->assertInstanceOf(IntegerDistributorInterface::class, $this->distributor);
     }
 
+    /** @param int[] $expectedResults */
     #[DataProvider('provideSimpleIntegersData')]
     public function testShouldDistributeSimpleIntegers(int $amount, int $numberOfTargets, array $expectedResults): void
     {
         $this->assertSame($expectedResults, $this->distributor->distribute($amount, $numberOfTargets));
     }
 
-    /** @return iterable<int|int[]> */
+    /** @return iterable<array{int, int, int[]}> */
     public static function provideSimpleIntegersData(): iterable
     {
         yield [0, 4, [0, 0, 0, 0]];
@@ -46,12 +47,14 @@ final class IntegerDistributorTest extends TestCase
         yield [-1000, 4, [-250, -250, -250, -250]];
     }
 
+    /** @param int[] $expectedResults */
     #[DataProvider('provideCannotSplitEquallyData')]
     public function testShouldDistributeIntegersThatCannotBeSplitEqually(int $amount, int $numberOfTargets, array $expectedResults): void
     {
         $this->assertSame($expectedResults, $this->distributor->distribute($amount, $numberOfTargets));
     }
 
+    /** @return iterable<array{int, int, int[]}> */
     public static function provideCannotSplitEquallyData(): iterable
     {
         yield [22, 7, [4, 3, 3, 3, 3, 3, 3]];

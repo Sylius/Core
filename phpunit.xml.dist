@@ -11,7 +11,6 @@
     <testsuites>
         <testsuite name="SyliusCoreComponent Test Suite">
             <directory>./tests/</directory>
-            <directory>./Test/</directory>
         </testsuite>
     </testsuites>
 </phpunit>

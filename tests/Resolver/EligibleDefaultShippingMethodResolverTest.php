@@ -47,8 +47,6 @@ final class EligibleDefaultShippingMethodResolverTest extends TestCase
 
     private MockObject&ShippingMethodInterface $secondShippingMethod;
 
-    private MockObject&ShippingMethodInterface $thirdShippingMethod;
-
     private EligibleDefaultShippingMethodResolver $resolver;
 
     protected function setUp(): void
@@ -61,7 +59,6 @@ final class EligibleDefaultShippingMethodResolverTest extends TestCase
         $this->shipment = $this->createMock(ShipmentInterface::class);
         $this->firstShippingMethod = $this->createMock(ShippingMethodInterface::class);
         $this->secondShippingMethod = $this->createMock(ShippingMethodInterface::class);
-        $this->thirdShippingMethod = $this->createMock(ShippingMethodInterface::class);
         $this->resolver = new EligibleDefaultShippingMethodResolver(
             $this->shippingMethodRepository,
             $this->shippingMethodEligibilityChecker,
@@ -69,7 +66,7 @@ final class EligibleDefaultShippingMethodResolverTest extends TestCase
         );
     }
 
-    public function testShouldImplementDefaultShippingMethodResolverInterface()
+    public function testShouldImplementDefaultShippingMethodResolverInterface(): void
     {
         $this->assertInstanceOf(DefaultShippingMethodResolverInterface::class, $this->resolver);
     }

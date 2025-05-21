@@ -46,10 +46,10 @@ final class OrderAdjustmentsClearerTest extends TestCase
         $removeInvokedCount = $this->exactly(2);
         $this->order->expects($removeInvokedCount)->method('removeAdjustmentsRecursively')->willReturnCallback(
             function (string $type) use ($removeInvokedCount): void {
-                if ($removeInvokedCount === 1) {
+                if ($removeInvokedCount->numberOfInvocations() === 1) {
                     $this->assertSame(AdjustmentInterface::ORDER_ITEM_PROMOTION_ADJUSTMENT, $type);
                 }
-                if ($removeInvokedCount === 2) {
+                if ($removeInvokedCount->numberOfInvocations() === 2) {
                     $this->assertSame(AdjustmentInterface::ORDER_PROMOTION_ADJUSTMENT, $type);
                 }
             },

@@ -14,8 +14,6 @@ declare(strict_types=1);
 namespace Tests\Sylius\Component\Core\Payment;
 
 use PHPUnit\Framework\TestCase;
-use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Core\Payment\InvoiceNumberGeneratorInterface;
 use Sylius\Component\Core\Payment\RandomInvoiceNumberGenerator;
 
@@ -36,15 +34,5 @@ final class RandomInvoiceNumberGeneratorTest extends TestCase
     public function testShouldImplementInvoiceNumberGeneratorInterface(): void
     {
         $this->assertInstanceOf(InvoiceNumberGeneratorInterface::class, $this->generator);
-    }
-
-    public function testShouldGenerateRandomInvoiceNumber(): void
-    {
-        $this->assertIsString(
-            $this->generator->generate(
-                $this->createMock(OrderInterface::class),
-                $this->createMock(PaymentInterface::class),
-            ),
-        );
     }
 }

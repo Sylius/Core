@@ -43,7 +43,7 @@ final class UnitPercentageDiscountPromotionActionCommandTest extends TestCase
 
     private FilterInterface&MockObject $productFilter;
 
-    private PromotionInterface $promotion;
+    private MockObject&PromotionInterface $promotion;
 
     private ChannelInterface&MockObject $channel;
 

@@ -33,7 +33,7 @@ final class ProductImageTest extends TestCase
         $this->productImage = new ProductImage();
     }
 
-    private function testShouldImplementProductImageInterface(): void
+    public function testShouldImplementProductImageInterface(): void
     {
         $this->assertInstanceOf(ProductImageInterface::class, $this->productImage);
     }

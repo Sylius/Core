@@ -28,7 +28,7 @@ final class OrderSequenceTest extends TestCase
         $this->orderSequence = new OrderSequence();
     }
 
-    private function testShouldImplementOrderSequenceInterace(): void
+    public function testShouldImplementOrderSequenceInterace(): void
     {
         $this->assertInstanceOf(OrderSequenceInterface::class, $this->orderSequence);
     }

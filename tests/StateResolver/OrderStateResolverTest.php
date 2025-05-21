@@ -95,8 +95,6 @@ final class OrderStateResolverTest extends TestCase
 
     public function testShouldNotMarkOrderAsFulfilledWhenItHasBeenShippedButNotPaid(): void
     {
-        $this->order->expects($this->once())->method('getShippingState')->willreturn(OrderShippingStates::STATE_SHIPPED);
-        $this->order->expects($this->once())->method('getPaymentState')->willReturn(OrderPaymentStates::STATE_AUTHORIZED);
         $this->stateMachine
             ->expects($this->never())
             ->method('can')

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Sylius\Component\Core\tests\Taxation\Applicator;
+namespace Tests\Sylius\Component\Core\Taxation\Applicator;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\MockObject\MockObject;

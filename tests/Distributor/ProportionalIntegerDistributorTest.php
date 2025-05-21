@@ -80,7 +80,9 @@ final class ProportionalIntegerDistributorTest extends TestCase
     public function testShouldThrowExceptionIfAnyOfIntegerArrayElementIsNotInteger(): void
     {
         $this->expectException(\InvalidArgumentException::class);
+        /** @var int[] $integers */
+        $integers = [4300, '1400', 2300];
 
-        $this->distributor->distribute([4300, '1400', 2300], 300);
+        $this->distributor->distribute($integers, 300);
     }
 }

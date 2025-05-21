@@ -118,7 +118,7 @@ final class OrderPaymentStateResolverTest extends TestCase
         $this->stateResolver->resolve($this->order);
     }
 
-    public function testShouldMarkOrderAsPaidIfItDoesNotHaveAnyPayments()
+    public function testShouldMarkOrderAsPaidIfItDoesNotHaveAnyPayments(): void
     {
         $this->order
             ->expects($this->exactly(3))

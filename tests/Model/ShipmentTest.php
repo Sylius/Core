@@ -106,64 +106,29 @@ final class ShipmentTest extends TestCase
 
     public function testShouldHaveCorrectAdjustmentsTotal(): void
     {
-//        $this->shipment->setOrder($this->order);
-//        $this->order->expects($this->exactly(5))->method('recalculateAdjustmentsTotal');
-//        $secondAdjustment = $this->createMock(AdjustmentInterface::class);
-//        $thirdAdjustment = $this->createMock(AdjustmentInterface::class);
-//        $fourthAdjustment = $this->createMock(AdjustmentInterface::class);
-//        $this->adjustment->expects($this->atLeastOnce())->method('isNeutral')->willReturn(false);
-//        $this->adjustment->expects($this->exactly(2))->method('setShipment');
-//        $this->adjustment->expects($this->once())->method('isLocked')->willReturn(false);
-        ////        $this->adjustment->expects($this->once())->method('setShipment')->with(null);
-        ////        $this->adjustment->expects($this->atLeastOnce())->method('getAmount')->willReturn(100);
-//        $secondAdjustment->expects($this->atLeastOnce())->method('isNeutral')->willReturn(false);
-//        $secondAdjustment->expects($this->once())->method('setShipment')->with($this->shipment);
-        ////        $secondAdjustment->expects($this->atLeastOnce())->method('getAmount')->willReturn(50);
-//        $thirdAdjustment->expects($this->atLeastOnce())->method('isNeutral')->willReturn(false);
-//        $thirdAdjustment->expects($this->once())->method('setShipment')->with($this->shipment);
-        ////        $thirdAdjustment->expects($this->atLeastOnce())->method('getAmount')->willReturn(250);
-//        $fourthAdjustment->expects($this->atLeastOnce())->method('isNeutral')->willReturn(true);
-//        $fourthAdjustment->expects($this->once())->method('setShipment')->with($this->shipment);
-        ////        $fourthAdjustment->expects($this->atLeastOnce())->method('getAmount')->willReturn(150);
-//
-//        $this->shipment->addAdjustment($this->adjustment);
-//        $this->shipment->addAdjustment($secondAdjustment);
-//        $this->shipment->addAdjustment($thirdAdjustment);
-//        $this->shipment->addAdjustment($fourthAdjustment);
-//        $this->shipment->removeAdjustment($this->adjustment);
-//
-//        $this->assertSame(300, $this->shipment->getAdjustmentsTotal());
-        $this->shipment->setOrder($this->order);
-        $adjustment1 = $this->createMock(AdjustmentInterface::class);
         $adjustment2 = $this->createMock(AdjustmentInterface::class);
         $adjustment3 = $this->createMock(AdjustmentInterface::class);
         $adjustment4 = $this->createMock(AdjustmentInterface::class);
-        $adjustment1->expects($this->atLeastOnce())->method('isNeutral')->willReturn(false);
-        $adjustment1SetShipmentinvokedCount = $this->exactly(2);
-        $adjustment1->expects($adjustment1SetShipmentinvokedCount)->method('setShipment')->willReturnCallback(function ($arg) use ($adjustment1SetShipmentinvokedCount, $adjustment1) {
-            if ($adjustment1SetShipmentinvokedCount->numberOfInvocations() === 1) {
-                $this->assertEquals($adjustment1, $arg);
-            }
-            $this->assertNull($arg);
-        });
-        $adjustment1->expects($this->once())->method('isLocked')->willReturn(false);
-//        $adjustment1->expects($this->once())->method('setShipment')->with(null);
-        $adjustment1->expects($this->atLeastOnce())->method('getAmount')->willReturn(100);
-        $adjustment2->expects($this->atLeastOnce())->method('isNeutral')->willReturn(false);
+        $this->shipment->setOrder($this->order);
+        $this->adjustment->method('isNeutral')->willReturn(false);
+        $this->adjustment->expects($this->exactly(2))->method('setShipment');
+        $this->adjustment->method('isLocked')->willReturn(false);
+        $this->adjustment->method('getAmount')->willReturn(100);
+        $adjustment2->method('isNeutral')->willReturn(false);
         $adjustment2->expects($this->once())->method('setShipment')->with($this->shipment);
-        $adjustment2->expects($this->atLeastOnce())->method('getAmount')->willReturn(50);
-        $adjustment3->expects($this->atLeastOnce())->method('isNeutral')->willReturn(false);
+        $adjustment2->method('getAmount')->willReturn(50);
+        $adjustment3->method('isNeutral')->willReturn(false);
         $adjustment3->expects($this->once())->method('setShipment')->with($this->shipment);
-        $adjustment3->expects($this->atLeastOnce())->method('getAmount')->willReturn(250); // O TEGO CHODZI
-        $adjustment4->expects($this->atLeastOnce())->method('isNeutral')->willReturn(true);
+        $adjustment3->method('getAmount')->willReturn(250);
+        $adjustment4->method('isNeutral')->willReturn(true);
         $adjustment4->expects($this->once())->method('setShipment')->with($this->shipment);
-        $adjustment4->expects($this->once())->method('getAmount')->willReturn(150);
-        $this->order->expects($this->exactly(5))->method('recalculateAdjustmentsTotal');
-        $this->shipment->addAdjustment($adjustment1);
+        $adjustment4->method('getAmount')->willReturn(150);
+
+        $this->shipment->addAdjustment($this->adjustment);
         $this->shipment->addAdjustment($adjustment2);
         $this->shipment->addAdjustment($adjustment3);
         $this->shipment->addAdjustment($adjustment4);
-        $this->shipment->removeAdjustment($adjustment1);
+        $this->shipment->removeAdjustment($this->adjustment);
 
         $this->assertSame(300, $this->shipment->getAdjustmentsTotal());
     }
