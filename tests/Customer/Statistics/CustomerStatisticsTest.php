@@ -40,7 +40,7 @@ final class CustomerStatisticsTest extends TestCase
     public function testShouldThrowExceptionWhenArrayDoesNotContainOnlyPerChannelStatistics(): void
     {
         /** @var PerChannelCustomerStatistics[] $perChannelStatistics */
-        $perChannelStatistics = [new \StdClass()];
+        $perChannelStatistics = [new \stdClass()];
 
         $this->expectException(\InvalidArgumentException::class);
 
