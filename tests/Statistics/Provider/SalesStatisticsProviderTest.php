@@ -27,16 +27,15 @@ final class SalesStatisticsProviderTest extends TestCase
 {
     private MockObject&OrdersTotalsProviderRegistryInterface $ordersTotalsProviderRegistry;
 
-    private MockObject&CacheInterface $cache;
+    private CacheInterface&MockObject $cache;
 
-    private MockObject&ChannelInterface $channel;
+    private ChannelInterface&MockObject $channel;
 
     protected function setUp(): void
     {
         $this->ordersTotalsProviderRegistry = $this->createMock(OrdersTotalsProviderRegistryInterface::class);
         $this->cache = $this->createMock(CacheInterface::class);
         $this->channel = $this->createMock(ChannelInterface::class);
-
     }
 
     public function testThrowsExceptionWhenIntervalTypeIsUnknown(): void
@@ -140,18 +139,24 @@ final class SalesStatisticsProviderTest extends TestCase
 
         $firstRegistry->method('getByType')->willReturn(new class($firstProvider) implements SalesProviderInterface {
             /** @param array<array{period: \DateTimeImmutable, ...}> $data */
-            public function __construct(private array $data) {}
+            public function __construct(private array $data)
+            {
+            }
 
-            public function provideForPeriodInChannel(\DatePeriod $period, ChannelInterface $channel): array {
+            public function provideForPeriodInChannel(\DatePeriod $period, ChannelInterface $channel): array
+            {
                 return $this->data;
             }
         });
 
         $secondRegistry->method('getByType')->willReturn(new class($secondProvider) implements SalesProviderInterface {
             /** @param array<array{period: \DateTimeImmutable, ...}> $data */
-            public function __construct(private array $data) {}
+            public function __construct(private array $data)
+            {
+            }
 
-            public function provideForPeriodInChannel(\DatePeriod $period, ChannelInterface $channel): array {
+            public function provideForPeriodInChannel(\DatePeriod $period, ChannelInterface $channel): array
+            {
                 return $this->data;
             }
         });
@@ -190,7 +195,7 @@ final class SalesStatisticsProviderTest extends TestCase
             ->method('get')
             ->with(
                 $this->callback(fn (string $key) => str_starts_with($key, 'sylius_sales_statistics.day.')),
-                $this->callback(fn (callable $callback) => true)
+                $this->callback(fn (callable $callback) => true),
             )
             ->willReturn([
                 ['period' => '2024-01-01', 'total' => 999],

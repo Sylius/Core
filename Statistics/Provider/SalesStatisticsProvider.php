@@ -83,7 +83,7 @@ final class SalesStatisticsProvider implements SalesStatisticsProviderInterface
                 $item->expiresAfter($this->cacheExpiresAfter);
 
                 return $this->getStatisticsData($intervalType, $datePeriod, $channel, $format);
-            }
+            },
         );
     }
 
@@ -132,11 +132,11 @@ final class SalesStatisticsProvider implements SalesStatisticsProviderInterface
     private function withFormattedDates(array $sales, string $format): array
     {
         return array_map(
-            fn(array $entry) => array_merge(
+            fn (array $entry) => array_merge(
                 ['period' => $entry['period']->format($format)],
-                array_diff_key($entry, ['period' => true])
+                array_diff_key($entry, ['period' => true]),
             ),
-            $sales
+            $sales,
         );
     }
 
