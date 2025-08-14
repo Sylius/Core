@@ -71,8 +71,11 @@ final class UnitsPromotionAdjustmentsApplicatorSpec extends ObjectBehavior
         $magnumItemChannelPricing->getMinimumPrice()->willReturn(0);
 
         $firstColtUnit->getTotal()->willReturn(1000);
+        $firstColtUnit->getAdjustmentsTotal()->willReturn(0);
         $secondColtUnit->getTotal()->willReturn(1000);
+        $secondColtUnit->getAdjustmentsTotal()->willReturn(10);
         $magnumUnit->getTotal()->willReturn(2000);
+        $magnumUnit->getAdjustmentsTotal()->willReturn(5);
 
         $order
             ->getItems()
@@ -99,7 +102,7 @@ final class UnitsPromotionAdjustmentsApplicatorSpec extends ObjectBehavior
 
         $adjustmentFactory
             ->createWithData(AdjustmentInterface::ORDER_PROMOTION_ADJUSTMENT, 'Winter guns promotion!', 500)
-            ->willReturn($firstAdjustment, $secondAdjustment)
+            ->willReturn($secondAdjustment, $firstAdjustment)
         ;
         $adjustmentFactory
             ->createWithData(AdjustmentInterface::ORDER_PROMOTION_ADJUSTMENT, 'Winter guns promotion!', 999)
@@ -285,8 +288,11 @@ final class UnitsPromotionAdjustmentsApplicatorSpec extends ObjectBehavior
         $coltItemChannelPricing->getMinimumPrice()->willReturn(0);
 
         $firstColtUnit->getTotal()->willReturn(1000);
+        $firstColtUnit->getAdjustmentsTotal()->willReturn(0);
         $secondColtUnit->getTotal()->willReturn(1000);
+        $secondColtUnit->getAdjustmentsTotal()->willReturn(10);
         $thirdColtUnit->getTotal()->willReturn(1000);
+        $thirdColtUnit->getAdjustmentsTotal()->willReturn(5);
 
         $order
             ->getItems()
@@ -311,7 +317,7 @@ final class UnitsPromotionAdjustmentsApplicatorSpec extends ObjectBehavior
 
         $adjustmentFactory
             ->createWithData(AdjustmentInterface::ORDER_PROMOTION_ADJUSTMENT, 'Winter guns promotion!', 1)
-            ->willReturn($firstAdjustment, $secondAdjustment)
+            ->willReturn($secondAdjustment, $firstAdjustment)
         ;
 
         $firstAdjustment->setOriginCode('WINTER_GUNS_PROMOTION')->shouldBeCalled();
@@ -344,7 +350,9 @@ final class UnitsPromotionAdjustmentsApplicatorSpec extends ObjectBehavior
         $coltItemChannelPricing->getMinimumPrice()->willReturn(0);
 
         $firstColtUnit->getTotal()->willReturn(1000);
+        $firstColtUnit->getAdjustmentsTotal()->willReturn(0);
         $secondColtUnit->getTotal()->willReturn(1000);
+        $secondColtUnit->getAdjustmentsTotal()->willReturn(10);
 
         $order
             ->getItems()
@@ -405,8 +413,11 @@ final class UnitsPromotionAdjustmentsApplicatorSpec extends ObjectBehavior
         $magnumItemChannelPricing->getMinimumPrice()->willReturn(1900);
 
         $firstColtUnit->getTotal()->willReturn(1000);
+        $firstColtUnit->getAdjustmentsTotal()->willReturn(0);
         $secondColtUnit->getTotal()->willReturn(1000);
+        $secondColtUnit->getAdjustmentsTotal()->willReturn(10);
         $magnumUnit->getTotal()->willReturn(2000);
+        $magnumUnit->getAdjustmentsTotal()->willReturn(5);
 
         $order
             ->getItems()
@@ -433,7 +444,7 @@ final class UnitsPromotionAdjustmentsApplicatorSpec extends ObjectBehavior
 
         $adjustmentFactory
             ->createWithData(AdjustmentInterface::ORDER_PROMOTION_ADJUSTMENT, 'Winter guns promotion!', -500)
-            ->willReturn($firstAdjustment, $secondAdjustment)
+            ->willReturn($secondAdjustment, $firstAdjustment)
         ;
         $adjustmentFactory
             ->createWithData(AdjustmentInterface::ORDER_PROMOTION_ADJUSTMENT, 'Winter guns promotion!', -100)
