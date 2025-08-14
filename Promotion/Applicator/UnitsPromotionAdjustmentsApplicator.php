@@ -55,12 +55,8 @@ final class UnitsPromotionAdjustmentsApplicator implements UnitsPromotionAdjustm
         ChannelInterface $channel,
     ): void {
         $splitPromotionAmount = $this->distributor->distribute($itemPromotionAmount, $item->getQuantity());
-        // Sort the splitPromotionAmount to ensure that the first unit will be the one with the greatest total
-        sort($splitPromotionAmount, SORT_NUMERIC);
+        sort($splitPromotionAmount, \SORT_NUMERIC);
 
-        // Sort units by total adjustment amount to ensure that the first unit will be the one with the greatest total
-        // This is important because we want to apply the promotion to the unit in same order as the splitPromotionAmount
-        // Without this, the order unit total could be less than the promotion amount.
         $orderUnits = $item->getUnits()->toArray();
         usort($orderUnits, function (OrderItemUnitInterface $a, OrderItemUnitInterface $b): int {
             return $b->getAdjustmentsTotal() <=> $a->getAdjustmentsTotal();
