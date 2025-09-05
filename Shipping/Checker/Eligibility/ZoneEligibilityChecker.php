@@ -18,6 +18,7 @@ use Sylius\Component\Core\Model\Scope;
 use Sylius\Component\Core\Model\ShipmentInterface;
 use Sylius\Component\Shipping\Checker\Eligibility\ShippingMethodEligibilityCheckerInterface;
 use Sylius\Component\Shipping\Model\ShippingMethodInterface;
+use Sylius\Component\Core\Model\ShippingMethodInterface as CoreShippingMethodInterface;
 use Sylius\Component\Shipping\Model\ShippingSubjectInterface;
 use Webmozart\Assert\Assert;
 
@@ -30,7 +31,7 @@ final class ZoneEligibilityChecker implements ShippingMethodEligibilityCheckerIn
     public function isEligible(ShippingSubjectInterface $shippingSubject, ShippingMethodInterface $shippingMethod): bool
     {
         Assert::isInstanceOf($shippingSubject, ShipmentInterface::class);
-        Assert::isInstanceOf($shippingMethod, ShippingMethodInterface::class);
+        Assert::isInstanceOf($shippingMethod, CoreShippingMethodInterface::class);
 
         $shippingAddress = $shippingSubject->getOrder()?->getShippingAddress();
         if (null === $shippingAddress) {
