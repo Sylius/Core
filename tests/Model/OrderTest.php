@@ -737,7 +737,7 @@ final class OrderTest extends TestCase
         $orderUnitAdjustmentForItem->expects($this->once())->method('getAmount')->willReturn(-20);
         $orderUnitAdjustmentForItem->expects($this->once())->method('isNeutral')->willReturn(false);
         $this->firstItem->expects($this->once())->method('getTotal')->willReturn(200);
-        $this->firstItem->expects($this->exactly(3))->method('getAdjustmentsRecursively')->willReturnCallback(fn($type) => match ($type) {
+        $this->firstItem->expects($this->exactly(3))->method('getAdjustmentsRecursively')->willReturnCallback(fn ($type) => match ($type) {
             AdjustmentInterface::ORDER_PROMOTION_ADJUSTMENT => new ArrayCollection([$orderAdjustmentForItem]),
             AdjustmentInterface::ORDER_ITEM_PROMOTION_ADJUSTMENT => new ArrayCollection([$orderItemAdjustmentForItem]),
             AdjustmentInterface::ORDER_UNIT_PROMOTION_ADJUSTMENT => new ArrayCollection([$orderUnitAdjustmentForItem]),
