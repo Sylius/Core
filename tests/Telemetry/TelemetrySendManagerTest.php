@@ -11,14 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Sylius\Component\Core\Tests\Telemetry;
+namespace Tests\Sylius\Component\Core\Telemetry;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Telemetry\Cache\TelemetryCacheInterface;
 use Sylius\Component\Core\Telemetry\Sender\TelemetrySenderInterface;
-use Sylius\Component\Core\Telemetry\TelemetrySendManager;
 use Sylius\Component\Core\Telemetry\TelemetryOrchestratorInterface;
+use Sylius\Component\Core\Telemetry\TelemetrySendManager;
 
 final class TelemetrySendManagerTest extends TestCase
 {
